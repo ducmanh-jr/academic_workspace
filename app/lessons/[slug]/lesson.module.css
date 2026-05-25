@@ -1,0 +1,413 @@
+.shell {
+  min-height: 100vh;
+  padding: 24px;
+}
+
+.workspace {
+  display: grid;
+  grid-template-columns: 300px minmax(0, 1fr);
+  gap: 16px;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+}
+
+.sidebar,
+.lessonPanel {
+  border: 1px solid var(--border);
+  background: var(--panel);
+}
+
+.sidebar {
+  position: sticky;
+  top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  height: calc(100vh - 48px);
+  padding: 22px;
+}
+
+.backLink {
+  color: var(--accent-dark);
+  font-weight: 700;
+  text-decoration: none;
+  transition: color 200ms ease, transform 200ms ease;
+  display: inline-block;
+}
+
+.backLink:hover {
+  color: var(--accent);
+  transform: translateX(-3px);
+}
+
+.kicker {
+  margin: 0 0 8px;
+  color: var(--accent-dark);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.sidebar h1,
+.lessonHeader h2,
+.sectionBlock h3,
+.practice h3,
+.quiz h3 {
+  margin: 0;
+}
+
+.sidebar p,
+.sectionBlock p,
+.practice p,
+.quiz p {
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.lessonNav {
+  display: grid;
+  gap: 10px;
+}
+
+.lessonNav a {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--foreground);
+  padding: 10px 12px;
+  text-decoration: none;
+  transition: border-color 200ms ease, background-color 200ms ease, padding-left 200ms ease;
+}
+
+.lessonNav a:hover {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  padding-left: 16px;
+}
+
+.lessonPanel {
+  padding: 40px;
+}
+
+.lessonHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 22px;
+}
+
+.lessonHeader h2 {
+  font-size: clamp(34px, 4vw, 58px);
+  line-height: 1;
+}
+
+.lessonHeader p {
+  max-width: 820px;
+}
+
+.lessonMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.lessonMeta span {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 7px 10px;
+  background: var(--panel-subtle);
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.ideaBand {
+  margin-top: 22px;
+  border-left: 4px solid var(--accent);
+  background: var(--accent-soft);
+  padding: 18px;
+}
+
+.ideaBand h3,
+.ideaBand p {
+  margin-top: 0;
+}
+
+.ideaBand p {
+  margin-bottom: 0;
+  line-height: 1.6;
+}
+
+.sectionBlock {
+  margin-top: 28px;
+}
+
+.sectionBlock h3 {
+  font-size: 22px;
+}
+
+.visualizerBlock {
+  margin-bottom: 28px;
+}
+
+.analogy {
+  border-left: 4px solid var(--warning);
+  background: var(--warning-soft);
+  padding: 12px;
+}
+
+.stepGrid,
+.detailList {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.stepCard,
+.detailItem {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 16px;
+  background: var(--panel-subtle);
+}
+
+.stepCard h4,
+.stepCard p,
+.detailItem h4,
+.detailItem p {
+  margin: 0;
+}
+
+.stepCard h4,
+.detailItem h4 {
+  margin-bottom: 8px;
+}
+
+.detailList {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.checkList {
+  display: grid;
+  gap: 10px;
+  margin: 14px 0 0;
+  padding-left: 22px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.inlineExample {
+  font-weight: 700;
+}
+
+.arrayRow {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(56px, 1fr));
+  gap: 10px;
+  max-width: 640px;
+  margin: 16px 0;
+}
+
+.arrayCell,
+.targetCell {
+  display: grid;
+  min-height: 48px;
+  place-items: center;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--panel-subtle);
+  font-weight: 700;
+  text-align: center;
+}
+
+.targetCell {
+  border-color: var(--success);
+  background: var(--success-soft);
+  color: var(--success);
+}
+
+.traceTable {
+  display: grid;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+
+.traceTable div {
+  border-bottom: 1px solid var(--border);
+  padding: 12px;
+  line-height: 1.45;
+}
+
+.traceHead {
+  background: var(--panel-subtle);
+  color: var(--panel-strong);
+  font-weight: 700;
+}
+
+.pseudocode {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 0;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.codeBlock {
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: #151a22;
+  color: #ecfdf5;
+  padding: 18px;
+  line-height: 1.55;
+}
+
+.complexityGrid,
+.twoColumn {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.complexityGrid div,
+.twoColumn p {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--panel-subtle);
+  padding: 14px;
+}
+
+.complexityGrid strong,
+.complexityGrid span {
+  display: block;
+}
+
+.complexityGrid span {
+  margin-top: 6px;
+  color: var(--accent-dark);
+  font-weight: 700;
+}
+
+.practice,
+.quiz {
+  margin-top: 28px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--warning-soft);
+  padding: 18px;
+}
+
+.exerciseList {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.exerciseList article {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--panel-subtle);
+  padding: 16px;
+}
+
+.exerciseList h4,
+.exerciseList p {
+  margin-top: 0;
+}
+
+.exerciseList summary {
+  color: var(--accent-dark);
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.practice details,
+.quiz details {
+  margin-top: 12px;
+}
+
+.practice summary,
+.quiz summary {
+  color: var(--accent-dark);
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.optionGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.optionGrid span {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--panel);
+  padding: 12px;
+}
+
+.nextBlock {
+  margin-top: 28px;
+}
+
+.nextBlock a {
+  display: block;
+  border-radius: 6px;
+  background: var(--accent);
+  color: white;
+  padding: 14px 18px;
+  font-weight: 700;
+  text-align: center;
+  text-decoration: none;
+  transition: background-color 200ms ease, transform 200ms ease, box-shadow 200ms ease;
+}
+
+.nextBlock a:hover {
+  background: var(--accent-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(15, 118, 110, 0.15);
+}
+
+@media (max-width: 1120px) {
+  .workspace {
+    grid-template-columns: 240px minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 820px) {
+  .shell {
+    padding: 14px;
+  }
+
+  .workspace,
+  .stepGrid,
+  .detailList,
+  .complexityGrid,
+  .twoColumn,
+  .optionGrid,
+  .exerciseList {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    position: static;
+    height: auto;
+  }
+
+  .lessonHeader {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .lessonMeta {
+    justify-content: flex-start;
+  }
+}

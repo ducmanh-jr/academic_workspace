@@ -1,0 +1,207 @@
+.shell {
+  display: grid;
+  grid-template-columns: 340px minmax(0, 1fr);
+  gap: 18px;
+  min-height: 100vh;
+  padding: 24px;
+}
+
+.sidebar,
+.panel {
+  border: 1px solid var(--border);
+  background: var(--panel);
+}
+
+.sidebar {
+  position: sticky;
+  top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  align-self: start;
+  min-height: calc(100vh - 48px);
+  padding: 24px;
+}
+
+.backLink,
+.nextBlock a,
+.relatedLessons a {
+  width: fit-content;
+  border-radius: 6px;
+  background: var(--accent);
+  color: white;
+  padding: 11px 14px;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.backLink:hover,
+.nextBlock a:hover,
+.relatedLessons a:hover {
+  background: var(--accent-dark);
+}
+
+.kicker {
+  margin: 0 0 8px;
+  color: var(--accent-dark);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.sidebar h1,
+.hero h2,
+.sectionBlock h3 {
+  margin: 0;
+}
+
+.sidebar h1 {
+  font-size: 34px;
+  line-height: 1.08;
+}
+
+.sidebar p,
+.hero p,
+.sectionBlock p {
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.metaStack,
+.tagGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.metaStack span,
+.tagGrid span {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--panel-subtle);
+  color: var(--accent-dark);
+  padding: 8px 10px;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.panel {
+  min-width: 0;
+}
+
+.hero {
+  border-bottom: 1px solid var(--border);
+  background: var(--panel-subtle);
+  padding: 34px;
+}
+
+.hero h2 {
+  max-width: 960px;
+  font-size: clamp(36px, 5vw, 72px);
+  line-height: 1;
+}
+
+.hero p {
+  max-width: 860px;
+  font-size: 18px;
+}
+
+.sectionBlock {
+  border-bottom: 1px solid var(--border);
+  padding: 30px 34px;
+}
+
+.sectionBlock h3 {
+  margin-bottom: 16px;
+  font-size: 24px;
+}
+
+.ioGrid,
+.complexityGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.ioGrid div,
+.complexityGrid div,
+.exampleList article {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--panel);
+  padding: 16px;
+}
+
+.ioGrid strong,
+.complexityGrid strong {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.complexityGrid span {
+  color: var(--accent-dark);
+  font-size: 24px;
+  font-weight: 900;
+}
+
+.exampleList {
+  display: grid;
+  gap: 12px;
+}
+
+.exampleList pre {
+  overflow-x: auto;
+  margin: 0 0 10px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: #f8fafc;
+  padding: 12px;
+  color: var(--foreground);
+}
+
+.stepList,
+.warningList {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding-left: 22px;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.relatedLessons {
+  margin-top: 16px;
+}
+
+.nextBlock {
+  padding: 30px 34px;
+}
+
+@media (max-width: 940px) {
+  .shell {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    position: static;
+    min-height: auto;
+  }
+
+  .ioGrid,
+  .complexityGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .shell {
+    padding: 14px;
+  }
+
+  .hero,
+  .sectionBlock,
+  .nextBlock {
+    padding: 24px;
+  }
+}

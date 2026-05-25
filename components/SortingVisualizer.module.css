@@ -1,0 +1,137 @@
+.panel {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--panel);
+  padding: 22px;
+}
+
+.header {
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 16px;
+}
+
+.kicker {
+  margin: 0 0 8px;
+  color: var(--accent-dark);
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.header h3,
+.header p {
+  margin: 0;
+}
+
+.header h3 {
+  font-size: 28px;
+}
+
+.header p {
+  margin-top: 8px;
+  color: var(--muted);
+}
+
+.stage {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  min-height: 340px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--panel-subtle);
+  margin-top: 20px;
+  padding: 24px;
+  user-select: none;
+}
+
+.slot {
+  display: flex;
+  align-items: flex-end;
+  flex: 1;
+  height: 100%;
+  will-change: transform, height;
+}
+
+.bar {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  width: 100%;
+  min-height: 28px;
+  border: 1px solid #1f6f45;
+  background: #4fa267;
+  will-change: height, transform, background-color;
+  transition:
+    height 300ms ease,
+    transform 300ms ease,
+    background-color 300ms ease,
+    border-color 300ms ease,
+    opacity 300ms ease;
+}
+
+.bar span {
+  margin-top: -24px;
+  font-size: 12px;
+  font-weight: 850;
+}
+
+.active {
+  border-color: #b45309;
+  background: #f59e0b;
+  transform: translateY(-8px);
+}
+
+.fixed {
+  border-color: var(--accent);
+  background: #14b8a6;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  border-top: 1px solid var(--border);
+  margin-top: 20px;
+  padding-top: 16px;
+}
+
+.footer strong,
+.footer span {
+  display: block;
+}
+
+.footer span {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.controls {
+  display: flex;
+  gap: 10px;
+}
+
+.controls button {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--panel);
+  color: var(--foreground);
+  padding: 10px 12px;
+  font-weight: 800;
+}
+
+.controls button:hover:not(:disabled) {
+  border-color: var(--accent);
+}
+
+@media (max-width: 760px) {
+  .footer {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .controls {
+    flex-wrap: wrap;
+  }
+}

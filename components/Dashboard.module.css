@@ -1,0 +1,238 @@
+/* Dashboard.module.css */
+
+.wrapper {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--panel);
+  padding: 20px 24px;
+  margin-bottom: 28px;
+}
+
+.skeleton {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--panel-subtle);
+  height: 100px;
+  margin-bottom: 28px;
+}
+
+/* ── Top row ── */
+.topRow {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+/* Progress ring */
+.ringWrap {
+  position: relative;
+  width: 72px;
+  height: 72px;
+  flex-shrink: 0;
+}
+
+.ring {
+  width: 72px;
+  height: 72px;
+  transform: rotate(-90deg);
+}
+
+.ringTrack {
+  fill: none;
+  stroke: var(--border);
+  stroke-width: 5;
+}
+
+.ringFill {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 5;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 500ms ease;
+}
+
+.ringLabel {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+}
+
+.ringPct {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--foreground);
+  line-height: 1;
+}
+
+.ringSub {
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+/* Stats */
+.stats {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  min-width: 240px;
+}
+
+.statItem {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 0 20px;
+}
+
+.statItem:first-child {
+  padding-left: 0;
+}
+
+.statValue {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--foreground);
+  line-height: 1;
+}
+
+.statTotal {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.statLabel {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.statDivider {
+  width: 1px;
+  height: 32px;
+  background: var(--border);
+  flex-shrink: 0;
+}
+
+/* Reset button */
+.resetBtn {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  border-radius: 6px;
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-left: auto;
+  transition: border-color 150ms ease, color 150ms ease;
+  white-space: nowrap;
+  align-self: flex-start;
+}
+
+.resetBtn:hover {
+  border-color: #ef4444;
+  color: #ef4444;
+}
+
+/* ── Achievements row ── */
+.badgesRow {
+  border-top: 1px solid var(--border);
+  margin-top: 18px;
+  padding-top: 14px;
+}
+
+.badgesLabel {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 10px;
+}
+
+.badges {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--panel-subtle);
+  padding: 8px 12px;
+  opacity: 0.4;
+  flex: 1;
+  min-width: 160px;
+}
+
+.badgeUnlocked {
+  opacity: 1;
+  border-color: rgba(20, 184, 166, 0.35);
+  background: rgba(20, 184, 166, 0.04);
+}
+
+.badgeDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--border);
+  flex-shrink: 0;
+}
+
+.badgeUnlocked .badgeDot {
+  background: var(--accent);
+}
+
+.badgeName {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--foreground);
+  line-height: 1.2;
+}
+
+.badgeUnlocked .badgeName {
+  color: var(--accent-dark);
+}
+
+.badgeDesc {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 1px;
+}
+
+@media (max-width: 640px) {
+  .stats {
+    gap: 0;
+    overflow-x: auto;
+  }
+
+  .statItem {
+    padding: 0 14px;
+  }
+
+  .badges {
+    flex-direction: column;
+  }
+
+  .badge {
+    min-width: unset;
+    flex: unset;
+  }
+}
