@@ -32,12 +32,11 @@ if not exist "node_modules" (
   echo [1/3] Dependencies da san sang.
 )
 
-if exist ".next" (
-  echo [2/3] Dang don cache .next de tranh loi dev server cu...
-  rmdir /s /q ".next"
-) else (
-  echo [2/3] Cache sach.
-)
+echo [2/3] Su dung cache .next de tang toc do khoi dong...
+rem if exist ".next" (
+rem   echo [2/3] Dang don cache .next de tranh loi dev server cu...
+rem   rmdir /s /q ".next"
+rem )
 
 echo [3/3] Dang mo http://localhost:3000 ...
 start "" "http://localhost:3000"

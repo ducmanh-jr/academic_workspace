@@ -29,6 +29,7 @@
   justify-content: space-between;
   gap: 40px;
   padding: 48px;
+  animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 .kicker {
@@ -87,6 +88,8 @@
   background: var(--panel-subtle);
   color: var(--foreground);
   padding: 32px;
+  animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: 150ms;
 }
 
 .metricGrid {
@@ -143,6 +146,8 @@
   margin-top: 16px;
   border: 1px solid var(--border);
   background: var(--panel);
+  animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: 300ms;
 }
 
 .principles article,
@@ -181,10 +186,22 @@
   line-height: 1.55;
 }
 
-.roadmap,
-.curriculumMap,
+.roadmap {
+  margin-top: 40px;
+  animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: 450ms;
+}
+
+.curriculumMap {
+  margin-top: 40px;
+  animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: 600ms;
+}
+
 .problemPreview {
   margin-top: 40px;
+  animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: 750ms;
 }
 
 .problemPreview {
@@ -312,24 +329,25 @@
 }
 
 .trackCard {
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  background: var(--panel);
-  padding: 18px;
-  transition: border-color 200ms ease, box-shadow 200ms ease;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+  padding: 24px;
+  transition: border-color 200ms ease, box-shadow 200ms ease, transform 200ms ease;
 }
 
 .trackCard:hover {
-  border-color: var(--border-strong);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  border-color: var(--accent);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  transform: translateY(-4px);
 }
 
 .trackCard header {
   display: grid;
   grid-template-columns: 1fr auto;
-  justify-content: space-between;
   gap: 14px;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid rgba(255,255,255,0.2);
   padding-bottom: 14px;
 }
 

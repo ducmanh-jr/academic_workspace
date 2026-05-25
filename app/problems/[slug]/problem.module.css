@@ -118,7 +118,9 @@
 }
 
 .ioGrid,
-.complexityGrid {
+.complexityGrid,
+.strategyGrid,
+.noteGrid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px;
@@ -126,7 +128,9 @@
 
 .ioGrid div,
 .complexityGrid div,
-.exampleList article {
+.exampleList article,
+.strategyGrid article,
+.noteGrid > div {
   border: 1px solid var(--border);
   border-radius: 6px;
   background: var(--panel);
@@ -134,14 +138,37 @@
 }
 
 .ioGrid strong,
-.complexityGrid strong {
+.complexityGrid strong,
+.noteGrid strong {
   display: block;
   margin-bottom: 8px;
+}
+
+.strategyGrid h4 {
+  margin: 0 0 8px;
+  font-size: 18px;
 }
 
 .complexityGrid span {
   color: var(--accent-dark);
   font-size: 24px;
+  font-weight: 900;
+}
+
+.miniComplexity {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.miniComplexity span {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--panel-subtle);
+  color: var(--accent-dark);
+  padding: 7px 9px;
+  font-size: 12px;
   font-weight: 900;
 }
 
@@ -158,6 +185,19 @@
   background: #f8fafc;
   padding: 12px;
   color: var(--foreground);
+}
+
+.codeBlock {
+  overflow-x: auto;
+  margin: 0;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: #0f172a;
+  color: #e2e8f0;
+  padding: 16px;
+  font-family: "Fira Code", "Cascadia Code", "JetBrains Mono", monospace;
+  font-size: 13px;
+  line-height: 1.65;
 }
 
 .stepList,
@@ -189,7 +229,9 @@
   }
 
   .ioGrid,
-  .complexityGrid {
+  .complexityGrid,
+  .strategyGrid,
+  .noteGrid {
     grid-template-columns: 1fr;
   }
 }

@@ -40,8 +40,8 @@ export default async function ProblemPage({ params }: ProblemPageProps) {
   return (
     <main className={styles.shell}>
       <aside className={styles.sidebar}>
-        <Link className={styles.backLink} href="/problems">
-          Về kho bài toán
+        <Link className={styles.backLink} href="/">
+          Quay lại Trang chủ
         </Link>
 
         <div>
@@ -101,6 +101,64 @@ export default async function ProblemPage({ params }: ProblemPageProps) {
         </section>
 
         <section className={styles.sectionBlock}>
+          <h3>So sánh hướng giải</h3>
+          <div className={styles.strategyGrid}>
+            <SolutionStrategyCard strategy={problem.bruteForce} />
+            <SolutionStrategyCard strategy={problem.optimized} />
+          </div>
+        </section>
+
+        <section className={styles.sectionBlock}>
+          <h3>Walkthrough theo ví dụ</h3>
+          <ol className={styles.stepList}>
+            {problem.walkthrough.map((step) => (
+              <li key={step}>{step}</li>
+            ))}
+          </ol>
+        </section>
+
+        <section className={styles.sectionBlock}>
+          <h3>Pseudocode</h3>
+          <pre className={styles.codeBlock}>{problem.pseudocode.join("\n")}</pre>
+        </section>
+
+        <section className={styles.sectionBlock}>
+          <h3>Code mẫu TypeScript</h3>
+          <pre className={styles.codeBlock}>{problem.code}</pre>
+        </section>
+
+        <section className={styles.sectionBlock}>
+          <h3>Vì sao đúng?</h3>
+          <ol className={styles.stepList}>
+            {problem.proof.map((step) => (
+              <li key={step}>{step}</li>
+            ))}
+          </ol>
+        </section>
+
+        <section className={styles.sectionBlock}>
+          <h3>Case biên & biến thể</h3>
+          <div className={styles.noteGrid}>
+            <div>
+              <strong>Case biên cần test</strong>
+              <ul className={styles.warningList}>
+                {problem.edgeCases.map((edgeCase) => (
+                  <li key={edgeCase}>{edgeCase}</li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <strong>Biến thể nên luyện tiếp</strong>
+              <ul className={styles.warningList}>
+                {problem.variations.map((variation) => (
+                  <li key={variation}>{variation}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <section className={styles.sectionBlock}>
           <h3>Thuật toán liên quan</h3>
           <div className={styles.tagGrid}>
             {problem.relatedAlgorithms.map((algorithm) => (
@@ -153,9 +211,39 @@ export default async function ProblemPage({ params }: ProblemPageProps) {
         </section>
 
         <footer className={styles.nextBlock}>
-          <Link href="/problems">Xem thêm bài toán kinh điển</Link>
+          <Link href="/">Quay lại Trang chủ</Link>
         </footer>
       </article>
     </main>
+  );
+}
+
+function SolutionStrategyCard({
+  strategy,
+}: {
+  strategy: {
+    title: string;
+    idea: string;
+    steps: string[];
+    complexity: {
+      time: string;
+      space: string;
+    };
+  };
+}) {
+  return (
+    <article>
+      <h4>{strategy.title}</h4>
+      <p>{strategy.idea}</p>
+      <ol className={styles.stepList}>
+        {strategy.steps.map((step) => (
+          <li key={step}>{step}</li>
+        ))}
+      </ol>
+      <div className={styles.miniComplexity}>
+        <span>{strategy.complexity.time}</span>
+        <span>{strategy.complexity.space}</span>
+      </div>
+    </article>
   );
 }

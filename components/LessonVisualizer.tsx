@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { BubbleSortVisualizer } from "./BubbleSortVisualizer";
 import { SortingVisualizer } from "./SortingVisualizer";
 import styles from "./LessonVisualizer.module.css";
 
@@ -14,7 +13,7 @@ export function LessonVisualizer({ slug }: LessonVisualizerProps) {
   if (slug === "big-o-don-gian") return <BigOVisualizer />;
   if (slug === "linear-search") return <LinearSearchVisualizer />;
   if (slug === "binary-search") return <BinarySearchVisualizer />;
-  if (slug === "bubble-sort") return <BubbleSortVisualizer />;
+  if (slug === "bubble-sort") return <SortingVisualizer kind="bubble" />;
   if (slug === "selection-sort") return <SortingVisualizer kind="selection" />;
   if (slug === "insertion-sort") return <SortingVisualizer kind="insertion" />;
   if (slug === "quick-sort") return <SortingVisualizer kind="quick" />;

@@ -14,70 +14,83 @@ import { lessons } from "@/lib/lessons";
 import { Dashboard } from "@/components/Dashboard";
 import styles from "./page.module.css";
 
+// Utility: split an array into chunks of given size
+function chunkArray<T>(arr: T[], size: number): T[][] {
+  const chunks: T[][] = [];
+  for (let i = 0; i < arr.length; i += size) {
+    chunks.push(arr.slice(i, i + size));
+  }
+  return chunks;
+}
+
 const foundations = lessons.filter((lesson) => lesson.difficulty === "foundation");
 const beginners = lessons.filter((lesson) => lesson.difficulty === "beginner");
 
-const problemCurriculum = [
-  {
-    id: "arrays-hashing",
-    title: "Mảng & Bảng băm",
-    description: "Nhập môn thao tác trên mảng và tra cứu siêu tốc với bảng băm.",
-    problems: [
-      { title: "Tìm hai số có tổng bằng K", slug: "two-sum", ready: true },
-      { title: "Contains Duplicate", slug: "contains-duplicate", ready: false },
-      { title: "Valid Anagram", slug: "valid-anagram", ready: false },
-    ],
-  },
-  {
-    id: "stack-queue",
-    title: "Ngăn xếp & Hàng đợi",
-    description: "Ứng dụng cấu trúc dữ liệu tuyến tính có thứ tự LIFO/FIFO.",
-    problems: [
-      { title: "Kiểm tra ngoặc hợp lệ", slug: "valid-parentheses", ready: true },
-      { title: "Min Stack", slug: "min-stack", ready: false },
-    ],
-  },
-  {
-    id: "binary-search",
-    title: "Tìm kiếm nhị phân",
-    description: "Tối ưu hóa thời gian tìm kiếm từ tuyến tính O(N) xuống logarit O(log N).",
-    problems: [
-      { title: "Tìm đáp án nhỏ nhất thỏa điều kiện", slug: "binary-search-answer", ready: true },
-      { title: "Search in Rotated Array", slug: "search-rotated-array", ready: false },
-    ],
-  },
-  {
-    id: "graph-grid",
-    title: "Đồ thị & Lưới ma trận",
-    description: "Các thuật toán duyệt hình học ma trận, tìm đường đi và liên thông.",
-    problems: [
-      { title: "Đếm số hòn đảo", slug: "number-of-islands", ready: true },
-      { title: "Đường đi ngắn nhất", slug: "shortest-path-dijkstra", ready: true },
-      { title: "Pacific Atlantic Water Flow", slug: "pacific-atlantic", ready: false },
-    ],
-  },
-  {
-    id: "dynamic-programming",
-    title: "Quy hoạch động",
-    description: "Phương pháp giải bài toán tối ưu bằng cách chia nhỏ và lưu vết trạng thái.",
-    problems: [
-      { title: "Fibonacci tối ưu bằng DP", slug: "fibonacci-dp", ready: true },
-      { title: "Chọn đồ vào balo", slug: "knapsack-01", ready: true },
-      { title: "Đổi tiền ít đồng nhất", slug: "coin-change", ready: true },
-      { title: "Dãy con tăng dài nhất", slug: "longest-increasing-subsequence", ready: true },
-      { title: "Longest Common Subsequence", slug: "longest-common-subsequence", ready: false },
-    ],
-  },
-  {
-    id: "backtracking",
-    title: "Quay lui & Vét cạn",
-    description: "Thử mọi nhánh trạng thái và cắt tỉa nhánh không khả thi.",
-    problems: [
-      { title: "Xếp N quân hậu", slug: "n-queens", ready: true },
-      { title: "Subsets", slug: "subsets", ready: false },
-    ],
-  },
-];
+const problemCurriculum = (() => {
+  const categories = [
+    {
+      id: "data-structures",
+      title: "Cấu trúc dữ liệu",
+      description: "Mảng, Bảng băm, Ngăn xếp, và thiết kế cấu trúc dữ liệu tối ưu.",
+      keywords: ["Array", "Hash", "Stack", "Queue", "LRU"]
+    },
+    {
+      id: "search-sort",
+      title: "Tìm kiếm & Sắp xếp",
+      description: "Tối ưu hóa thời gian với các thuật toán phân chia dữ liệu.",
+      keywords: ["Binary Search", "Sorting", "Sort"]
+    },
+    {
+      id: "dp",
+      title: "Quy hoạch động",
+      description: "Giải quyết bài toán tối ưu bằng cách chia nhỏ và lưu vết trạng thái.",
+      keywords: ["Dynamic Programming", "DP"]
+    },
+    {
+      id: "graph",
+      title: "Đồ thị & Lưới",
+      description: "Tìm đường đi ngắn nhất, cây khung và duyệt ma trận.",
+      keywords: ["Graph", "Grid", "MST"]
+    },
+    {
+      id: "recursion",
+      title: "Đệ quy & Quay lui",
+      description: "Vét cạn mọi khả năng trong không gian trạng thái, cắt tỉa nhánh sai.",
+      keywords: ["Recursion", "Backtracking", "Divide and Conquer"]
+    },
+    {
+      id: "concurrency",
+      title: "Đồng bộ & Đa luồng",
+      description: "Kiểm soát tài nguyên dùng chung, tránh deadlock và race conditions.",
+      keywords: ["Concurrency", "Synchronization", "Buffer"]
+    }
+  ];
+
+  const used = new Set<string>();
+  const curriculum = categories.map(cat => {
+    const matched = classicProblems.filter(p => {
+      if (used.has(p.slug)) return false;
+      const isMatch = cat.keywords.some(k => p.category.includes(k));
+      if (isMatch) used.add(p.slug);
+      return isMatch;
+    });
+    return { ...cat, problems: matched };
+  });
+
+  const remaining = classicProblems.filter(p => !used.has(p.slug));
+  if (remaining.length > 0) {
+    curriculum.push({
+      id: "others",
+      title: "Các bài toán khác",
+      description: "Các bài toán kinh điển kết hợp nhiều kỹ thuật phức tạp.",
+      keywords: [],
+      problems: remaining
+    });
+  }
+
+  // Lọc bỏ những nhóm không có bài toán nào
+  return curriculum.filter(cat => cat.problems.length > 0);
+})();
 
 export default function Home() {
   const [completedLessons, setCompletedLessons] = useState<string[]>([]);
@@ -284,16 +297,14 @@ export default function Home() {
                   <h3>{track.title}</h3>
                   <p>{track.description}</p>
                 </div>
-                <span>
-                  {track.problems.filter((p) => p.ready).length}/{track.problems.length}
-                </span>
+                <span>{track.problems.length} đề</span>
               </header>
 
               <div className={styles.topicList}>
                 {track.problems.map((prob) => {
                   const isCompleted = completedProblems.includes(prob.slug);
 
-                  return prob.ready ? (
+                  return (
                     <Link
                       className={styles.topicReady}
                       href={`/problems/${prob.slug}`}
@@ -307,13 +318,10 @@ export default function Home() {
                       <strong>
                         {prob.title} {isCompleted && <span style={{ color: "#14b8a6", fontWeight: "800" }}>✓</span>}
                       </strong>
-                      <small>{isCompleted ? "Đã giải quyết bài toán" : "Giải ngay · Có lời giải"}</small>
+                      <small>
+                        {isCompleted ? "Đã giải quyết bài toán" : "Giải ngay"} · Độ khó: {prob.difficulty === "easy" ? "Dễ" : prob.difficulty === "medium" ? "Trung bình" : "Khó"}
+                      </small>
                     </Link>
-                  ) : (
-                    <div className={styles.topicPlanned} key={prob.slug}>
-                      <strong>{prob.title}</strong>
-                      <small>Sắp mở · Chưa có bài</small>
-                    </div>
                   );
                 })}
               </div>

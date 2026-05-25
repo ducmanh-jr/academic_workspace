@@ -1,13 +1,19 @@
 .panel {
+  position: relative;
   border: 1px solid var(--border);
   border-radius: 8px;
   background: var(--panel);
   padding: 22px;
+  cursor: pointer;
 }
 
 .header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
   border-bottom: 1px solid var(--border);
-  padding-bottom: 16px;
+  padding-bottom: 18px;
 }
 
 .kicker {
@@ -32,16 +38,105 @@
   color: var(--muted);
 }
 
+.status {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.status span {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--panel-subtle);
+  color: var(--accent-dark);
+  padding: 7px 10px;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.inputArea {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 14px;
+}
+
+.inputRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.inputRow input {
+  flex: 1;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--panel-subtle);
+  color: var(--foreground);
+  padding: 8px 12px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.inputRow button {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--accent);
+  color: white;
+  padding: 8px 14px;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.errorText {
+  color: #ef4444;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.presetRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.presetRow button {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--panel);
+  color: var(--foreground);
+  padding: 7px 10px;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.presetRow button:hover {
+  border-color: var(--accent);
+  color: var(--accent-dark);
+}
+
 .stage {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 280px;
+  gap: 20px;
+  min-height: 360px;
+  padding-top: 22px;
+  transition: all 300ms ease;
+}
+
+.bars {
   display: flex;
   align-items: flex-end;
   gap: 10px;
   min-height: 340px;
   border: 1px solid var(--border);
   border-radius: 8px;
-  background: var(--panel-subtle);
-  margin-top: 20px;
+  background: linear-gradient(to top, rgba(15, 118, 110, 0.08), transparent 45%), var(--panel-subtle);
   padding: 24px;
+  transition: all 300ms ease;
   user-select: none;
 }
 
@@ -50,6 +145,7 @@
   align-items: flex-end;
   flex: 1;
   height: 100%;
+  cursor: pointer;
   will-change: transform, height;
 }
 
@@ -62,54 +158,185 @@
   border: 1px solid #1f6f45;
   background: #4fa267;
   will-change: height, transform, background-color;
-  transition:
-    height 300ms ease,
-    transform 300ms ease,
-    background-color 300ms ease,
-    border-color 300ms ease,
-    opacity 300ms ease;
+  transition: height 300ms ease, background-color 300ms ease, transform 300ms ease, border-color 300ms ease;
 }
 
 .bar span {
   margin-top: -24px;
+  color: var(--foreground);
   font-size: 12px;
-  font-weight: 850;
+  font-weight: 800;
 }
 
-.active {
+.comparing {
   border-color: #b45309;
   background: #f59e0b;
   transform: translateY(-8px);
 }
 
-.fixed {
-  border-color: var(--accent);
+.swapping {
+  border-color: #991b1b;
+  background: #ef4444;
+  transform: translateY(-12px) scaleX(1.08);
+}
+
+.sorted {
+  border-color: #0f766e;
   background: #14b8a6;
 }
 
-.footer {
+.explainBox {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--panel-subtle);
+  padding: 18px;
+}
+
+.explainBox strong {
+  display: block;
+  font-size: 18px;
+}
+
+.explainBox small {
+  display: block;
+  margin-top: 6px;
+  color: var(--accent-dark);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.explainBox p {
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.legend {
+  display: grid;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.variablePanel {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.panelEyebrow {
+  grid-column: 1 / -1;
+  color: var(--accent-dark);
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.variablePanel span {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
-  border-top: 1px solid var(--border);
-  margin-top: 20px;
-  padding-top: 16px;
+  gap: 8px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--panel);
+  padding: 7px 8px;
 }
 
-.footer strong,
-.footer span {
-  display: block;
+.variablePanel code {
+  color: var(--muted);
+  font-size: 12px;
 }
 
-.footer span {
+.variablePanel strong {
+  color: var(--accent-dark);
+  font-size: 13px;
+}
+
+.stepQuiz {
+  display: grid;
+  gap: 8px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--panel);
+  margin-top: 14px;
+  padding: 12px;
+}
+
+.stepQuiz > strong {
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.stepQuiz div {
+  display: flex;
+  gap: 8px;
+}
+
+.stepQuiz button {
+  flex: 1;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--panel-subtle);
+  color: var(--foreground);
+  padding: 7px 8px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.stepQuiz p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.quizCorrect {
+  border-color: #0f766e !important;
+  background: rgba(20, 184, 166, 0.16) !important;
+}
+
+.quizWrong {
+  border-color: #991b1b !important;
+  background: rgba(239, 68, 68, 0.14) !important;
+}
+
+.legend span {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   color: var(--muted);
   font-size: 13px;
+  font-weight: 700;
+}
+
+.legend i {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+}
+
+.compareDot {
+  background: #f59e0b;
+}
+
+.swapDot {
+  background: #ef4444;
+}
+
+.doneDot {
+  background: #14b8a6;
 }
 
 .controls {
   display: flex;
+  align-items: center;
+  flex-wrap: wrap;
   gap: 10px;
+  border-top: 1px solid var(--border);
+  margin-top: 20px;
+  padding-top: 18px;
 }
 
 .controls button {
@@ -119,19 +346,279 @@
   color: var(--foreground);
   padding: 10px 12px;
   font-weight: 800;
+  cursor: pointer;
 }
 
-.controls button:hover:not(:disabled) {
+.controls button:first-child {
   border-color: var(--accent);
+  background: var(--accent);
+  color: white;
 }
 
-@media (max-width: 760px) {
-  .footer {
+.controls button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.controls label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: auto;
+  color: var(--muted);
+  font-weight: 800;
+}
+
+.controls input {
+  accent-color: var(--accent);
+}
+
+.speedGroup {
+  display: flex;
+  gap: 6px;
+}
+
+.speedGroup button {
+  padding: 8px 10px;
+}
+
+.speedActive {
+  border-color: var(--accent) !important;
+  background: var(--accent-soft) !important;
+  color: var(--accent-dark) !important;
+}
+
+.timeline {
+  border-top: 1px solid var(--border);
+  margin-top: 18px;
+  padding-top: 16px;
+}
+
+.timelineHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.timelineHeader strong {
+  color: var(--accent-dark);
+}
+
+.timelineTrack {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(14px, 1fr));
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.timelineDot {
+  height: 10px;
+  min-width: 10px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--panel-subtle);
+  cursor: pointer;
+  padding: 0;
+  transition: background-color 180ms ease, border-color 180ms ease, transform 180ms ease;
+}
+
+.timelineDot:hover {
+  border-color: var(--accent);
+  transform: translateY(-1px);
+}
+
+.timelinePast {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.timelineCurrent {
+  border-color: var(--accent);
+  background: var(--accent);
+  transform: scale(1.18);
+}
+
+.racePanel {
+  border-top: 1px solid var(--border);
+  margin-top: 18px;
+  padding-top: 16px;
+}
+
+.raceHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.raceHeader strong {
+  color: var(--accent-dark);
+  overflow-wrap: anywhere;
+  text-align: right;
+}
+
+.raceGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.raceGrid article {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--panel-subtle);
+  padding: 12px;
+}
+
+.raceGrid article > div:first-child {
+  display: grid;
+  gap: 4px;
+}
+
+.raceGrid article strong {
+  font-size: 14px;
+}
+
+.raceGrid article span,
+.raceGrid article p {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.raceGrid article p {
+  margin: 8px 0 0;
+}
+
+.raceMeter {
+  height: 8px;
+  border-radius: 999px;
+  background: var(--panel);
+  margin-top: 10px;
+  overflow: hidden;
+}
+
+.raceMeter i {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--accent);
+}
+
+.codeTrace {
+  margin-top: 20px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--panel-subtle);
+  overflow: hidden;
+}
+
+.codeTraceHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--border);
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--accent-dark);
+  letter-spacing: 0.02em;
+}
+
+.codeTraceHeader span {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 0.4;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+.codeLine {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 16px;
+  font-family: "Fira Code", "Cascadia Code", "JetBrains Mono", monospace;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--muted);
+  transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+  border-left: 3px solid transparent;
+}
+
+.codeLineActive {
+  background: var(--accent-soft);
+  color: var(--foreground);
+  font-weight: 700;
+  border-left-color: var(--accent);
+}
+
+.lineNum {
+  display: inline-block;
+  min-width: 20px;
+  text-align: right;
+  font-size: 11px;
+  color: var(--border-strong);
+  user-select: none;
+}
+
+@media (max-width: 900px) {
+  .header,
+  .stage {
+    grid-template-columns: 1fr;
+  }
+
+  .header {
+    display: grid;
+  }
+
+  .inputRow {
     align-items: stretch;
     flex-direction: column;
   }
 
-  .controls {
-    flex-wrap: wrap;
+  .presetRow button {
+    flex: 1;
+  }
+
+  .controls label {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .controls input {
+    flex: 1;
+  }
+
+  .speedGroup,
+  .raceGrid {
+    grid-template-columns: 1fr;
+    width: 100%;
+  }
+
+  .speedGroup button {
+    flex: 1;
   }
 }

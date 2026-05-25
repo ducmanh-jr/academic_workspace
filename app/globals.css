@@ -17,14 +17,36 @@
   --danger: #b91c1c;
 }
 
+/* Dark theme custom variables */
+[data-theme="dark"] {
+  --background: #0f172a; /* Slate 900 */
+  --foreground: #f1f5f9; /* Slate 100 */
+  --muted: #94a3b8; /* Slate 400 */
+  --panel: #1e293b; /* Slate 800 */
+  --panel-subtle: #0f172a; /* Slate 900 */
+  --panel-strong: #f8fafc; /* Slate 50 */
+  --border: #334155; /* Slate 700 */
+  --border-strong: #475569; /* Slate 600 */
+  --accent: #14b8a6; /* Teal 500 */
+  --accent-dark: #2dd4bf; /* Teal 400 */
+  --accent-soft: #115e59; /* Teal 800 */
+  --warning: #f59e0b;
+  --warning-soft: #78350f;
+  --success: #10b981;
+  --success-soft: #064e3b;
+  --danger: #ef4444;
+}
+
 * {
   box-sizing: border-box;
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.2s ease, box-shadow 0.3s ease;
 }
 
 html,
 body {
   min-height: 100%;
   margin: 0;
+  transition: background-color 0.4s ease, color 0.4s ease;
 }
 
 body {
@@ -52,3 +74,48 @@ button:disabled {
   cursor: not-allowed;
   opacity: 0.6;
 }
+
+/* --- High-Performance Entrance Animations --- */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+

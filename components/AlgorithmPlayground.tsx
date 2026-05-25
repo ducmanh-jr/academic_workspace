@@ -133,6 +133,18 @@ function sortWithCount(algorithm: PlaygroundAlgorithm, values: number[]) {
   const arr = [...values];
   let steps = 0;
 
+  if (algorithm === "bubble-sort") {
+    for (let end = arr.length - 1; end > 0; end -= 1) {
+      for (let i = 0; i < end; i += 1) {
+        steps += 1;
+        if (arr[i] > arr[i + 1]) {
+          [arr[i], arr[i + 1]] = [arr[i + 1], arr[i]];
+        }
+      }
+    }
+    return { output: arr, steps };
+  }
+
   if (algorithm === "selection-sort") {
     for (let i = 0; i < arr.length - 1; i += 1) {
       let min = i;
@@ -160,14 +172,68 @@ function sortWithCount(algorithm: PlaygroundAlgorithm, values: number[]) {
   }
 
   if (algorithm === "counting-sort" || algorithm === "radix-sort") {
-    return { output: arr.sort((a, b) => a - b), steps: arr.length };
+    return { output: deterministicSorted(arr), steps: arr.length };
   }
 
-  return {
-    output: arr.sort((a, b) => {
+  if (algorithm === "quick-sort") {
+    quickSort(arr, 0, arr.length - 1, () => {
       steps += 1;
-      return a - b;
-    }),
-    steps,
-  };
+    });
+    return { output: arr, steps };
+  }
+
+  if (algorithm === "merge-sort") {
+    const result = mergeSort(arr, () => {
+      steps += 1;
+    });
+    return { output: result, steps };
+  }
+
+  return { output: deterministicSorted(arr), steps: arr.length };
+}
+
+function deterministicSorted(values: number[]) {
+  return mergeSort(values, () => undefined);
+}
+
+function quickSort(arr: number[], low: number, high: number, onCompare: () => void) {
+  if (low >= high) return;
+
+  const pivot = arr[high];
+  let i = low;
+  for (let j = low; j < high; j += 1) {
+    onCompare();
+    if (arr[j] <= pivot) {
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+      i += 1;
+    }
+  }
+
+  [arr[i], arr[high]] = [arr[high], arr[i]];
+  quickSort(arr, low, i - 1, onCompare);
+  quickSort(arr, i + 1, high, onCompare);
+}
+
+function mergeSort(values: number[], onCompare: () => void): number[] {
+  if (values.length <= 1) return [...values];
+
+  const mid = Math.floor(values.length / 2);
+  const left = mergeSort(values.slice(0, mid), onCompare);
+  const right = mergeSort(values.slice(mid), onCompare);
+  const merged: number[] = [];
+  let i = 0;
+  let j = 0;
+
+  while (i < left.length && j < right.length) {
+    onCompare();
+    if (left[i] <= right[j]) {
+      merged.push(left[i]);
+      i += 1;
+    } else {
+      merged.push(right[j]);
+      j += 1;
+    }
+  }
+
+  return merged.concat(left.slice(i), right.slice(j));
 }
