@@ -1,22 +1,11 @@
-/* Dashboard.module.css */
-
 .wrapper {
   border: 1px solid var(--border);
-  border-radius: 10px;
+  border-radius: 8px;
   background: var(--panel);
   padding: 20px 24px;
-  margin-bottom: 28px;
+  margin-top: 24px;
 }
 
-.skeleton {
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  background: var(--panel-subtle);
-  height: 100px;
-  margin-bottom: 28px;
-}
-
-/* ── Top row ── */
 .topRow {
   display: flex;
   align-items: center;
@@ -24,7 +13,6 @@
   flex-wrap: wrap;
 }
 
-/* Progress ring */
 .ringWrap {
   position: relative;
   width: 72px;
@@ -64,20 +52,19 @@
 
 .ringPct {
   font-size: 15px;
-  font-weight: 800;
+  font-weight: 900;
   color: var(--foreground);
   line-height: 1;
 }
 
 .ringSub {
-  font-size: 9px;
-  font-weight: 700;
   color: var(--muted);
+  font-size: 9px;
+  font-weight: 800;
+  line-height: 1;
   text-transform: uppercase;
-  letter-spacing: 0.3px;
 }
 
-/* Stats */
 .stats {
   flex: 1;
   display: flex;
@@ -87,8 +74,7 @@
 }
 
 .statItem {
-  display: flex;
-  flex-direction: column;
+  display: grid;
   gap: 2px;
   padding: 0 20px;
 }
@@ -98,55 +84,81 @@
 }
 
 .statValue {
-  font-size: 22px;
-  font-weight: 800;
+  font-size: 24px;
+  font-weight: 900;
   color: var(--foreground);
   line-height: 1;
 }
 
 .statTotal {
-  font-size: 14px;
-  font-weight: 600;
+  font-size: 13px;
+  font-weight: 700;
   color: var(--muted);
 }
 
 .statLabel {
   font-size: 11px;
-  font-weight: 700;
+  font-weight: 900;
   color: var(--muted);
   text-transform: uppercase;
-  letter-spacing: 0.4px;
 }
 
 .statDivider {
   width: 1px;
-  height: 32px;
+  height: 36px;
   background: var(--border);
   flex-shrink: 0;
 }
 
-/* Reset button */
-.resetBtn {
-  background: transparent;
+.actionGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  border-top: 1px solid var(--border);
+  margin-top: 18px;
+  padding-top: 16px;
+}
+
+.actionCard {
+  display: grid;
+  gap: 6px;
+  min-height: 118px;
   border: 1px solid var(--border);
-  color: var(--muted);
+  border-radius: 8px;
+  background: var(--panel-subtle);
+  color: var(--foreground);
+  padding: 14px;
+  text-decoration: none;
+}
+
+.actionCard:hover {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  transform: translateY(-1px);
+}
+
+.actionCard span {
+  width: fit-content;
   border-radius: 6px;
-  padding: 6px 14px;
-  font-size: 12px;
+  border: 1px solid var(--border);
+  background: var(--panel);
+  color: var(--accent-dark);
+  padding: 4px 7px;
+  font-size: 10px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.actionCard strong {
+  line-height: 1.25;
+}
+
+.actionCard small {
+  color: var(--muted);
   font-weight: 700;
-  cursor: pointer;
-  margin-left: auto;
-  transition: border-color 150ms ease, color 150ms ease;
-  white-space: nowrap;
-  align-self: flex-start;
+  line-height: 1.35;
 }
 
-.resetBtn:hover {
-  border-color: #ef4444;
-  color: #ef4444;
-}
-
-/* ── Achievements row ── */
 .badgesRow {
   border-top: 1px solid var(--border);
   margin-top: 18px;
@@ -155,11 +167,10 @@
 
 .badgesLabel {
   display: block;
-  font-size: 11px;
-  font-weight: 700;
   color: var(--muted);
+  font-size: 11px;
+  font-weight: 900;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
   margin-bottom: 10px;
 }
 
@@ -173,13 +184,13 @@
   display: flex;
   align-items: center;
   gap: 8px;
+  flex: 1;
+  min-width: 160px;
   border: 1px solid var(--border);
   border-radius: 6px;
   background: var(--panel-subtle);
   padding: 8px 12px;
-  opacity: 0.4;
-  flex: 1;
-  min-width: 160px;
+  opacity: 0.45;
 }
 
 .badgeUnlocked {
@@ -201,9 +212,9 @@
 }
 
 .badgeName {
-  font-size: 12px;
-  font-weight: 800;
   color: var(--foreground);
+  font-size: 12px;
+  font-weight: 900;
   line-height: 1.2;
 }
 
@@ -212,19 +223,22 @@
 }
 
 .badgeDesc {
-  font-size: 11px;
   color: var(--muted);
+  font-size: 11px;
   margin-top: 1px;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 760px) {
   .stats {
-    gap: 0;
     overflow-x: auto;
   }
 
   .statItem {
     padding: 0 14px;
+  }
+
+  .actionGrid {
+    grid-template-columns: 1fr;
   }
 
   .badges {
@@ -233,6 +247,5 @@
 
   .badge {
     min-width: unset;
-    flex: unset;
   }
 }

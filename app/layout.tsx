@@ -3,8 +3,8 @@ import "./globals.css";
 import { ThemeToggle } from "@/components/ThemeToggle";
 
 export const metadata: Metadata = {
-  title: "JRFN Algorithm",
-  description: "Nền tảng học thuật toán có hệ thống",
+  title: "JRFN Learning OS",
+  description: "Workspace học tập đa lĩnh vực với lessons, practice, projects và progress.",
 };
 
 export default function RootLayout({

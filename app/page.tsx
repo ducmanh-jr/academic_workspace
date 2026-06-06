@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import {
   countAllTopics,
@@ -14,14 +14,113 @@ import { lessons } from "@/lib/lessons";
 import { Dashboard } from "@/components/Dashboard";
 import styles from "./page.module.css";
 
-// Utility: split an array into chunks of given size
-function chunkArray<T>(arr: T[], size: number): T[][] {
-  const chunks: T[][] = [];
-  for (let i = 0; i < arr.length; i += size) {
-    chunks.push(arr.slice(i, i + size));
-  }
-  return chunks;
-}
+const learningTracks = [
+  {
+    id: "algorithms",
+    title: "Algorithms",
+    domain: "Computer Science",
+    description: "Tư duy thuật toán, cấu trúc dữ liệu, phân tích độ phức tạp và classic problems.",
+    progress: 46,
+    accent: "teal",
+    status: "Core track",
+    next: lessons[0]?.slug,
+  },
+  {
+    id: "programming",
+    title: "Programming",
+    domain: "Software Craft",
+    description: "Python, TypeScript, debugging, clean code và cách biến ý tưởng thành sản phẩm nhỏ.",
+    progress: 28,
+    accent: "blue",
+    status: "Opening",
+    next: lessons.find((lesson) => lesson.slug === "thuat-toan-la-gi")?.slug,
+  },
+  {
+    id: "math",
+    title: "Mathematics",
+    domain: "Foundations",
+    description: "Đại số, xác suất, logic, linear algebra và cách đọc công thức bằng trực giác.",
+    progress: 18,
+    accent: "amber",
+    status: "New",
+  },
+  {
+    id: "ai",
+    title: "AI / Machine Learning",
+    domain: "Applied AI",
+    description: "Dữ liệu, mô hình, đánh giá kết quả và các mini project ứng dụng AI.",
+    progress: 12,
+    accent: "violet",
+    status: "New",
+  },
+  {
+    id: "english",
+    title: "English",
+    domain: "Communication",
+    description: "Đọc tài liệu kỹ thuật, từ vựng học thuật, viết note và trình bày lời giải.",
+    progress: 24,
+    accent: "rose",
+    status: "Support",
+  },
+  {
+    id: "research",
+    title: "Research Skills",
+    domain: "Academic Work",
+    description: "Đọc paper, lập literature map, viết citation, thiết kế thực nghiệm và báo cáo.",
+    progress: 10,
+    accent: "slate",
+    status: "New",
+  },
+];
+
+const todayPlan = [
+  {
+    mode: "Learn",
+    title: "Ôn lại Big-O đơn giản",
+    detail: "15 phút đọc lý thuyết và trace 3 ví dụ nhỏ.",
+    href: "/lessons/big-o-don-gian",
+  },
+  {
+    mode: "Practice",
+    title: "Làm 2 bài tìm kiếm",
+    detail: "Tập trung vào cách chọn left, right, mid và điều kiện dừng.",
+    href: "/lessons/binary-search",
+  },
+  {
+    mode: "Build",
+    title: "Mini search notebook",
+    detail: "Biến binary search thành một công cụ tìm mục tiêu trong dataset nhỏ.",
+  },
+];
+
+const buildProjects = [
+  {
+    title: "Mini Search Engine",
+    field: "Algorithms + Programming",
+    description: "Ứng dụng linear search, binary search và ranking cơ bản vào bộ dữ liệu tài liệu.",
+    steps: ["Index dữ liệu", "Tìm theo keyword", "Sắp xếp kết quả"],
+  },
+  {
+    title: "Study Analytics",
+    field: "Math + Data",
+    description: "Theo dõi thời gian học, độ khó, số lần ôn tập và dự đoán bài cần review.",
+    steps: ["Gom log học", "Tính mastery", "Vẽ dashboard"],
+  },
+  {
+    title: "Paper Reading Kit",
+    field: "English + Research",
+    description: "Mẫu đọc paper gồm abstract, method, result, limitation và câu hỏi phản biện.",
+    steps: ["Tóm tắt", "Trích ý chính", "Viết câu hỏi"],
+  },
+];
+
+const libraryItems = [
+  "Formula notes",
+  "Code snippets",
+  "Vocabulary cards",
+  "Paper summaries",
+  "Project logs",
+];
 
 const foundations = lessons.filter((lesson) => lesson.difficulty === "foundation");
 const beginners = lessons.filter((lesson) => lesson.difficulty === "beginner");
@@ -31,65 +130,65 @@ const problemCurriculum = (() => {
     {
       id: "data-structures",
       title: "Cấu trúc dữ liệu",
-      description: "Mảng, Bảng băm, Ngăn xếp, và thiết kế cấu trúc dữ liệu tối ưu.",
-      keywords: ["Array", "Hash", "Stack", "Queue", "LRU"]
+      description: "Array, hash table, stack, queue và các cấu trúc dữ liệu tối ưu.",
+      keywords: ["Array", "Hash", "Stack", "Queue", "LRU"],
     },
     {
       id: "search-sort",
       title: "Tìm kiếm & Sắp xếp",
-      description: "Tối ưu hóa thời gian với các thuật toán phân chia dữ liệu.",
-      keywords: ["Binary Search", "Sorting", "Sort"]
+      description: "Tối ưu thời gian bằng cách chia, so sánh và sắp xếp dữ liệu.",
+      keywords: ["Binary Search", "Sorting", "Sort"],
     },
     {
       id: "dp",
       title: "Quy hoạch động",
-      description: "Giải quyết bài toán tối ưu bằng cách chia nhỏ và lưu vết trạng thái.",
-      keywords: ["Dynamic Programming", "DP"]
+      description: "Chia bài toán thành trạng thái nhỏ và lưu lại kết quả đã tính.",
+      keywords: ["Dynamic Programming", "DP"],
     },
     {
       id: "graph",
       title: "Đồ thị & Lưới",
-      description: "Tìm đường đi ngắn nhất, cây khung và duyệt ma trận.",
-      keywords: ["Graph", "Grid", "MST"]
+      description: "Duyệt đồ thị, tìm đường đi, cây khung và xử lý ma trận.",
+      keywords: ["Graph", "Grid", "MST"],
     },
     {
       id: "recursion",
       title: "Đệ quy & Quay lui",
-      description: "Vét cạn mọi khả năng trong không gian trạng thái, cắt tỉa nhánh sai.",
-      keywords: ["Recursion", "Backtracking", "Divide and Conquer"]
+      description: "Thử lựa chọn trong không gian trạng thái và cắt nhánh sai.",
+      keywords: ["Recursion", "Backtracking", "Divide and Conquer"],
     },
     {
       id: "concurrency",
       title: "Đồng bộ & Đa luồng",
-      description: "Kiểm soát tài nguyên dùng chung, tránh deadlock và race conditions.",
-      keywords: ["Concurrency", "Synchronization", "Buffer"]
-    }
+      description: "Kiểm soát tài nguyên dùng chung, tránh deadlock và race condition.",
+      keywords: ["Concurrency", "Synchronization", "Buffer"],
+    },
   ];
 
   const used = new Set<string>();
-  const curriculum = categories.map(cat => {
-    const matched = classicProblems.filter(p => {
-      if (used.has(p.slug)) return false;
-      const isMatch = cat.keywords.some(k => p.category.includes(k));
-      if (isMatch) used.add(p.slug);
+  const grouped = categories.map((category) => {
+    const problems = classicProblems.filter((problem) => {
+      if (used.has(problem.slug)) return false;
+      const isMatch = category.keywords.some((keyword) => problem.category.includes(keyword));
+      if (isMatch) used.add(problem.slug);
       return isMatch;
     });
-    return { ...cat, problems: matched };
+
+    return { ...category, problems };
   });
 
-  const remaining = classicProblems.filter(p => !used.has(p.slug));
+  const remaining = classicProblems.filter((problem) => !used.has(problem.slug));
   if (remaining.length > 0) {
-    curriculum.push({
+    grouped.push({
       id: "others",
-      title: "Các bài toán khác",
-      description: "Các bài toán kinh điển kết hợp nhiều kỹ thuật phức tạp.",
+      title: "Bài toán tổng hợp",
+      description: "Những bài kinh điển kết hợp nhiều kỹ thuật và cách suy luận.",
       keywords: [],
-      problems: remaining
+      problems: remaining,
     });
   }
 
-  // Lọc bỏ những nhóm không có bài toán nào
-  return curriculum.filter(cat => cat.problems.length > 0);
+  return grouped.filter((category) => category.problems.length > 0);
 })();
 
 export default function Home() {
@@ -99,91 +198,202 @@ export default function Home() {
 
   useEffect(() => {
     setMounted(true);
-    if (typeof window !== "undefined") {
-      setCompletedLessons(JSON.parse(localStorage.getItem("completed_lessons") || "[]"));
-      setCompletedProblems(JSON.parse(localStorage.getItem("completed_problems") || "[]"));
-    }
+    setCompletedLessons(JSON.parse(localStorage.getItem("completed_lessons") || "[]"));
+    setCompletedProblems(JSON.parse(localStorage.getItem("completed_problems") || "[]"));
   }, []);
+
+  const activeLesson = useMemo(() => {
+    return lessons.find((lesson) => !completedLessons.includes(lesson.slug)) ?? lessons[0];
+  }, [completedLessons]);
 
   return (
     <main className={styles.shell}>
       <section className={styles.hero}>
         <div className={styles.heroCopy}>
-          <div>
-            <p className={styles.kicker}>JRFN Algorithm</p>
-            <h1>Học thuật toán một cách có hệ thống</h1>
-            <p>
-              Một curriculum đầy đủ từ nền tảng đến nâng cao: lý thuyết rõ ràng,
-              ví dụ nhỏ, trace từng bước, code mẫu, phân tích độ phức tạp và bài
-              tập luyện ngay sau mỗi bài.
-            </p>
+          <p className={styles.kicker}>JRFN Learning OS</p>
+          <h1>Một workspace học tập đa lĩnh vực, bắt đầu từ thuật toán.</h1>
+          <p>
+            Trang chủ mới giúp người học biết mình đang học gì, tiến bộ ra sao và nên làm gì tiếp
+            theo. Algorithms vẫn là track cốt lõi, nhưng được mở rộng thành Learn, Practice, Build,
+            Library và Progress cho nhiều lĩnh vực.
+          </p>
+          <div className={styles.heroActions}>
+            <Link className={styles.primaryAction} href={`/lessons/${activeLesson.slug}`}>
+              Tiếp tục học
+            </Link>
+            <a className={styles.secondaryAction} href="#tracks">
+              Xem lo trinh
+            </a>
           </div>
-          <Link className={styles.primaryAction} href={`/lessons/${lessons[0].slug}`}>
-            Bắt đầu bài đầu tiên
-          </Link>
         </div>
 
-        <div className={styles.heroPanel} aria-label="Tổng quan chương trình học">
+        <div className={styles.heroPanel} aria-label="Tổng quan hệ sinh thái học tập">
           <div className={styles.metricGrid}>
             <div>
-              <span>{countAvailableLessons()}</span>
-              <p>Bài học đã mở</p>
+              <span>{learningTracks.length}</span>
+              <p>Learning tracks</p>
             </div>
             <div>
-              <span>{countAllTopics()}</span>
-              <p>Chủ đề trong curriculum</p>
+              <span>{countAvailableLessons()}</span>
+              <p>Bài học sẵn sàng</p>
             </div>
             <div>
               <span>{classicProblems.length}</span>
-              <p>Bài toán kinh điển</p>
+              <p>Classic problems</p>
             </div>
           </div>
           <div className={styles.sequencePreview}>
-            <p>Learning sequence</p>
+            <p>Learning model</p>
             <ol>
-              <li>Hiểu bài toán</li>
-              <li>Trace ví dụ nhỏ</li>
-              <li>Đọc code tối giản</li>
-              <li>Luyện tập và quiz</li>
+              <li>Learn để nắm khái niệm</li>
+              <li>Practice để kiểm tra hiểu biết</li>
+              <li>Build để biến kiến thức thành sản phẩm</li>
+              <li>Review để giữ mastery dài hạn</li>
             </ol>
           </div>
         </div>
       </section>
 
-      {/* Progress Dashboard */}
-      {mounted && (
-        <section style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 24px" }}>
-          <Dashboard />
-        </section>
-      )}
+      {mounted && <Dashboard />}
 
-      <section className={styles.principles} aria-label="Nguyên tắc học">
-        <article>
-          <span>01</span>
-          <h2>Nền tảng trước</h2>
-          <p>Mỗi thuật toán bắt đầu từ bài toán, input, output và cách làm thủ công.</p>
-        </article>
-        <article>
-          <span>02</span>
-          <h2>Trace rõ ràng</h2>
-          <p>Ví dụ nhỏ 4-6 phần tử để người học theo dõi từng bước mà không bị ngợp.</p>
-        </article>
-        <article>
-          <span>03</span>
-          <h2>Nội dung đầy đủ</h2>
-          <p>Mỗi bài có lý thuyết, pseudocode, code, Big-O, lỗi thường gặp và bài tập.</p>
-        </article>
+      <section className={styles.todayGrid} aria-label="Kế hoạch học hôm nay">
+        <div className={styles.sectionHeader}>
+          <div>
+            <p className={styles.kicker}>Today</p>
+            <h2>Mở app lên là biết học gì tiếp theo</h2>
+          </div>
+          <p>
+            Dashboard mới ưu tiên quyết định nhanh: tiếp tục bài đang dở, ôn tập đúng lúc và có một
+            project nhỏ để áp dụng.
+          </p>
+        </div>
+
+        <div className={styles.planGrid}>
+          {todayPlan.map((item) =>
+            item.href ? (
+              <Link className={styles.planCard} href={item.href} key={item.title}>
+                <span>{item.mode}</span>
+                <h3>{item.title}</h3>
+                <p>{item.detail}</p>
+              </Link>
+            ) : (
+              <article className={styles.planCard} key={item.title}>
+                <span>{item.mode}</span>
+                <h3>{item.title}</h3>
+                <p>{item.detail}</p>
+              </article>
+            ),
+          )}
+        </div>
+      </section>
+
+      <section className={styles.trackSection} id="tracks">
+        <div className={styles.sectionHeader}>
+          <div>
+            <p className={styles.kicker}>Learning Tracks</p>
+            <h2>Từ problem list thành bản đồ năng lực</h2>
+          </div>
+          <p>
+            Mỗi track có mục tiêu riêng, tiến độ riêng và có thể mở rộng thành module, lesson, quiz,
+            bài tập hoặc project mà không làm rối navigation.
+          </p>
+        </div>
+
+        <div className={styles.learningTrackGrid}>
+          {learningTracks.map((track) => (
+            <article className={`${styles.learningTrack} ${styles[track.accent]}`} key={track.id}>
+              <header>
+                <span>{track.status}</span>
+                <small>{track.domain}</small>
+              </header>
+              <h3>{track.title}</h3>
+              <p>{track.description}</p>
+              <div className={styles.progressBar} aria-label={`${track.title} progress`}>
+                <i style={{ width: `${track.progress}%` }} />
+              </div>
+              <footer>
+                <strong>{track.progress}% mastery</strong>
+                {track.next ? <Link href={`/lessons/${track.next}`}>Open</Link> : <span>Planned</span>}
+              </footer>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className={styles.learningSystem}>
+        <div className={styles.systemColumn}>
+          <div className={styles.sectionHeaderCompact}>
+            <p className={styles.kicker}>Learn / Practice / Build</p>
+            <h2>Một cấu trúc dùng được cho mọi môn</h2>
+          </div>
+          <div className={styles.modeList}>
+            <article>
+              <span>Learn</span>
+              <h3>Học khái niệm bằng ví dụ nhỏ</h3>
+              <p>Lý thuyết, analogy, trace, pseudocode và lỗi sai thường gặp.</p>
+            </article>
+            <article>
+              <span>Practice</span>
+              <h3>Luyện để thấy mình hiểu đến đâu</h3>
+              <p>Quiz, bài tập code, problem set và trạng thái cần ôn lại.</p>
+            </article>
+            <article>
+              <span>Build</span>
+              <h3>Làm project nhỏ để kiến thức có đời sống</h3>
+              <p>Mỗi chủ đề có đầu ra cụ thể: tool, notebook, report hoặc demo.</p>
+            </article>
+          </div>
+        </div>
+
+        <aside className={styles.libraryPanel} aria-label="Library">
+          <p className={styles.kicker}>Library</p>
+          <h2>Kho tri thuc ca nhan</h2>
+          <p>Lưu note, công thức, snippet, từ vựng và tóm tắt paper để việc học không bị rời rạc.</p>
+          <div>
+            {libraryItems.map((item) => (
+              <span key={item}>{item}</span>
+            ))}
+          </div>
+        </aside>
+      </section>
+
+      <section className={styles.projectSection}>
+        <div className={styles.sectionHeader}>
+          <div>
+            <p className={styles.kicker}>Projects</p>
+            <h2>Build biến việc học thành sản phẩm nhỏ</h2>
+          </div>
+          <p>
+            Khi mở rộng khỏi thuật toán, project là điểm nối giữa lập trình, toán, AI, tiếng Anh và
+            kỹ năng nghiên cứu.
+          </p>
+        </div>
+
+        <div className={styles.projectGrid}>
+          {buildProjects.map((project) => (
+            <article className={styles.projectCard} key={project.title}>
+              <small>{project.field}</small>
+              <h3>{project.title}</h3>
+              <p>{project.description}</p>
+              <ol>
+                {project.steps.map((step) => (
+                  <li key={step}>{step}</li>
+                ))}
+              </ol>
+            </article>
+          ))}
+        </div>
       </section>
 
       <section className={styles.roadmap}>
         <div className={styles.sectionHeader}>
           <div>
-            <p className={styles.kicker}>Roadmap</p>
-            <h2>Bài học có thể học ngay</h2>
+            <p className={styles.kicker}>Algorithm Core</p>
+            <h2>Track thuật toán hiện có vẫn được giữ làm nền tảng</h2>
           </div>
           <p>
-            Đây là các bài đã có nội dung hoàn chỉnh. Mỗi bài dùng cùng một cấu trúc
-            để người học không phải đoán cách học.
+            Nội dung cũ không bị mất đi; nó được đặt đúng vai trò: một track cốt lõi trong hệ sinh
+            thái học tập rộng hơn.
           </p>
         </div>
 
@@ -192,10 +402,10 @@ export default function Home() {
           <div className={styles.lessonList}>
             {foundations.map((lesson, index) => (
               <LessonCard
+                completed={completedLessons.includes(lesson.slug)}
                 index={index + 1}
                 key={lesson.slug}
                 slug={lesson.slug}
-                completed={completedLessons.includes(lesson.slug)}
               />
             ))}
           </div>
@@ -206,10 +416,10 @@ export default function Home() {
           <div className={styles.lessonList}>
             {beginners.map((lesson, index) => (
               <LessonCard
+                completed={completedLessons.includes(lesson.slug)}
                 index={foundations.length + index + 1}
                 key={lesson.slug}
                 slug={lesson.slug}
-                completed={completedLessons.includes(lesson.slug)}
               />
             ))}
           </div>
@@ -219,13 +429,12 @@ export default function Home() {
       <section className={styles.curriculumMap}>
         <div className={styles.sectionHeader}>
           <div>
-            <p className={styles.kicker}>Curriculum đầy đủ</p>
-            <h2>Bản đồ học tất cả thuật toán</h2>
+            <p className={styles.kicker}>Curriculum Map</p>
+            <h2>Bản đồ module cho algorithm track</h2>
           </div>
           <p>
-            Khung mở rộng lấy cảm hứng từ hai nguồn bạn gửi: giải thích đời thường
-            cho người mới và roadmap cấu trúc dữ liệu/thuật toán đầy đủ. Các mục
-            “Học ngay” đã có bài chi tiết; các mục “Sắp mở” sẽ được lấp dần.
+            Cấu trúc Subject - Track - Module - Lesson giúp sau này thêm Math, AI, English hay
+            Research Skills mà không cần viết lại trải nghiệm học.
           </p>
         </div>
 
@@ -252,21 +461,14 @@ export default function Home() {
                       className={`${styles.topicReady} ${isCompleted ? styles.topicCompleted : ""}`}
                       href={`/lessons/${topic.slug}`}
                       key={topic.title}
-                      style={
-                        isCompleted
-                          ? { border: "1px solid rgba(20, 184, 166, 0.6)", background: "rgba(20, 184, 166, 0.04)" }
-                          : undefined
-                      }
                     >
-                      <strong>
-                        {topic.title} {isCompleted && <span style={{ color: "#14b8a6", fontWeight: "800" }}>✓</span>}
-                      </strong>
-                      <small>{isCompleted ? "Đã hoàn thành bài học" : "Học ngay · Có visualizer"}</small>
+                      <strong>{topic.title}</strong>
+                      <small>{isCompleted ? "Completed" : "Learn now"}</small>
                     </Link>
                   ) : (
                     <div className={styles.topicPlanned} key={topic.title}>
                       <strong>{topic.title}</strong>
-                      <small>Sắp mở · Chưa có bài</small>
+                      <small>Planned</small>
                     </div>
                   );
                 })}
@@ -279,13 +481,12 @@ export default function Home() {
       <section className={styles.curriculumMap}>
         <div className={styles.sectionHeader}>
           <div>
-            <p className={styles.kicker}>Classic Problems Map</p>
-            <h2>Bản đồ Bài toán kinh điển thế giới</h2>
+            <p className={styles.kicker}>Practice Map</p>
+            <h2>Classic problems nằm trong Practice</h2>
           </div>
           <p>
-            Các bài toán lập trình kinh điển được chia nhóm khoa học và liên kết
-            chặt chẽ với từng kỹ thuật/chủ đề thuật toán cốt lõi. Hãy học lý thuyết
-            trước, sau đó giải các bài toán này để làm chủ hoàn toàn kiến thức.
+            Bài toán lập trình được đặt vào đúng context: dùng để luyện sau khi đã có lý thuyết,
+            trace và cách nhận diện pattern.
           </p>
         </div>
 
@@ -297,30 +498,21 @@ export default function Home() {
                   <h3>{track.title}</h3>
                   <p>{track.description}</p>
                 </div>
-                <span>{track.problems.length} đề</span>
+                <span>{track.problems.length} bài</span>
               </header>
 
               <div className={styles.topicList}>
-                {track.problems.map((prob) => {
-                  const isCompleted = completedProblems.includes(prob.slug);
+                {track.problems.map((problem) => {
+                  const isCompleted = completedProblems.includes(problem.slug);
 
                   return (
                     <Link
-                      className={styles.topicReady}
-                      href={`/problems/${prob.slug}`}
-                      key={prob.slug}
-                      style={
-                        isCompleted
-                          ? { border: "1px solid rgba(20, 184, 166, 0.6)", background: "rgba(20, 184, 166, 0.04)" }
-                          : undefined
-                      }
+                      className={`${styles.topicReady} ${isCompleted ? styles.topicCompleted : ""}`}
+                      href={`/problems/${problem.slug}`}
+                      key={problem.slug}
                     >
-                      <strong>
-                        {prob.title} {isCompleted && <span style={{ color: "#14b8a6", fontWeight: "800" }}>✓</span>}
-                      </strong>
-                      <small>
-                        {isCompleted ? "Đã giải quyết bài toán" : "Giải ngay"} · Độ khó: {prob.difficulty === "easy" ? "Dễ" : prob.difficulty === "medium" ? "Trung bình" : "Khó"}
-                      </small>
+                      <strong>{problem.title}</strong>
+                      <small>{isCompleted ? "Solved" : problem.difficulty}</small>
                     </Link>
                   );
                 })}
@@ -349,28 +541,13 @@ function LessonCard({
   }
 
   return (
-    <Link
-      className={styles.lessonCard}
-      href={`/lessons/${lesson.slug}`}
-      style={
-        completed
-          ? { border: "1px solid rgba(20, 184, 166, 0.4)", background: "rgba(20, 184, 166, 0.03)" }
-          : undefined
-      }
-    >
-      <span style={completed ? { color: "#14b8a6" } : undefined}>
-        {completed ? "✓" : String(index).padStart(2, "0")}
-      </span>
+    <Link className={`${styles.lessonCard} ${completed ? styles.lessonCardDone : ""}`} href={`/lessons/${lesson.slug}`}>
+      <span>{completed ? "OK" : String(index).padStart(2, "0")}</span>
       <div>
         <h4>{lesson.title}</h4>
         <p>{lesson.summary}</p>
         <small>
-          {lesson.topic} / {lesson.estimatedMinutes} phút / {lesson.complexity.time}
-          {completed && (
-            <span style={{ color: "#14b8a6", fontWeight: "800", marginLeft: "8px" }}>
-              • Đã học
-            </span>
-          )}
+          {lesson.topic} / {lesson.estimatedMinutes} min / {lesson.complexity.time}
         </small>
       </div>
     </Link>
